@@ -9,7 +9,7 @@ export const useEvents = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/scrape");
+        const res = await axios.get("https://event-tracking-backend.onrender.com/api/scrape");
         console.log("res", res);
         setEvents(res.data);
       } catch (err) {
