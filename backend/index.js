@@ -20,7 +20,7 @@ if(!process.env.MONGODB_URI || !process.env.db_name) {
 }
 app.get("/", (req, res) => {
 res.send("Hello World!");
-}
+})
 mongoose.connect(`${process.env.MONGODB_URI}/${process.env.db_name}`)
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.error('MongoDB connection error:', err));
