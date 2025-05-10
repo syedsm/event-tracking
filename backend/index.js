@@ -13,9 +13,13 @@ corsOptions = {
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
 };
+
 if(!process.env.MONGODB_URI || !process.env.db_name) {
     console.log("MongoDB URI or database name not defined in .env file");
     process.exit(1);
+}
+app.get("/", (req, res) => {
+res.send("Hello World!");
 }
 mongoose.connect(`${process.env.MONGODB_URI}/${process.env.db_name}`)
     .then(() => console.log('Connected to MongoDB'))
