@@ -29,7 +29,8 @@ const EmailModal: React.FC<EmailModalProps> = ({
       return;
     }
     
-    axios.post("https://event-tracking-backend.onrender.com/api/save", { email, eventTitle }).then((res) => {
+    // axios.post("https://event-tracking-backend.onrender.com/api/save", { email, eventTitle }).then((res) => {
+      axios.post("http://localhost:5000/api/save", { email, eventTitle }).then((res) => {
       // console.log("res", res);
       if (res.status === 201) {
         window.location.href = "https://www.eventbrite.com.au/d/australia--sydney/events/";
