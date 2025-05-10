@@ -1,11 +1,11 @@
-const puppeteer = require("puppeteer-core");
+const puppeteer = require("puppeteer");
 
 async function scrapeEventbrite() {
   let browser;
   try {
     browser = await puppeteer.launch({
-      headless: "new", // Use 'true' if older Node.js version
-      args: ['--no-sandbox', '--disable-setuid-sandbox'], // For most production environments
+      headless: "new",
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
       timeout: 30000,
     });
 
