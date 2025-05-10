@@ -6,13 +6,15 @@ const email = require("./routes/email");
 require("dotenv").config();
 
 const app = express();
-app.use(cors());
-app.use(express.json());
-corsOptions = {
+const corsOptions = {
     origin: "*",
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
 };
+
+app.use(cors(corsOptions));
+app.use(express.json());
+
 
 if(!process.env.MONGODB_URI || !process.env.db_name) {
     console.log("MongoDB URI or database name not defined in .env file");
