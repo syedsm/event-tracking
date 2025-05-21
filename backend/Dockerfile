@@ -1,40 +1,16 @@
-# Use slim Node.js base image
-FROM node:18-slim
-
-# Install system dependencies required for Chrome
-RUN apt-get update && apt-get install -y \
-  wget \
-  ca-certificates \
-  fonts-liberation \
-  libappindicator3-1 \
-  libasound2 \
-  libatk-bridge2.0-0 \
-  libatk1.0-0 \
-  libcups2 \
-  libdbus-1-3 \
-  libxss1 \
-  libnss3 \
-  libxcomposite1 \
-  libxrandr2 \
-  libxdamage1 \
-  libgbm1 \
-  libgtk-3-0 \
-  --no-install-recommends && \
-  rm -rf /var/lib/apt/lists/*
-
-# Install Google Chrome
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-    apt install -y ./google-chrome-stable_current_amd64.deb && \
-    rm google-chrome-stable_current_amd64.deb
+FROM ghcr.io/puppeteer/puppeteer:latest
 
 # Set working directory
 WORKDIR /app
 
-# Copy your app files
-COPY . .
+# Copy only package.json and install deps (for caching)
+COPY package*.json ./
 
-# Install Node dependencies
+# Install only puppeteer-core (chrome is already included in image)
 RUN npm install
 
-# Start the app
+# Copy your project files
+COPY . .
+
+# Start your app (adjust if you use something else)
 CMD ["npm", "start"]
