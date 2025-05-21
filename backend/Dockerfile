@@ -5,16 +5,19 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
 
 WORKDIR /app
 
-# Copy package files first
+# Copy package files first for caching layer
 COPY package.json package-lock.json ./
 
 # Install dependencies as root (default user)
 RUN npm install
 
-# Copy rest of the app files
+# Copy rest of app
 COPY . .
 
-# Switch to pptruser for running your app (security best practice)
+# Fix permissions so pptruser can access /app
+RUN chown -R pptruser:pptruser /app
+
+# Switch to non-root user for security
 USER pptruser
 
-CMD ["node", "index.js"]
+CMD ["npm", "start"]
