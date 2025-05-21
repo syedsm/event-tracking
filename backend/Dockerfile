@@ -5,15 +5,16 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
 
 WORKDIR /app
 
+# Copy package files first
 COPY package.json package-lock.json ./
 
-# Fix permissions for the current directory so npm can write
-RUN chmod -R 755 /app && chown -R pptruser:pptruser /app
-
-USER pptruser
-
+# Install dependencies as root (default user)
 RUN npm install
 
-COPY --chown=pptruser:pptruser . .
+# Copy rest of the app files
+COPY . .
+
+# Switch to pptruser for running your app (security best practice)
+USER pptruser
 
 CMD ["node", "index.js"]
