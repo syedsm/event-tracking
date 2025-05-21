@@ -1,24 +1,18 @@
-# Use Puppeteer base image with Chrome already installed
-FROM ghcr.io/puppeteer/puppeteer:latest
+FROM mcr.microsoft.com/playwright:focal
 
-# Set working directory
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
-
-# Fix permissions (important for npm install to work)
+# Use root for setup
 USER root
-RUN chown -R pptruser:pptruser /app
 
-# Switch back to pptruser (non-root safe user)
-USER pptruser
-
-# Install dependencies
+# Install puppeteer-core (Chromium is already included in base image)
+WORKDIR /app
+COPY package*.json ./
 RUN npm install
 
 # Copy the rest of the app
 COPY . .
+
+# Use default node user
+USER pwuser
 
 # Start your app
 CMD ["npm", "start"]
