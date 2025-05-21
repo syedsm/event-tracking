@@ -1,8 +1,7 @@
-const puppeteer = require('puppeteer-core');
+const puppeteer = require('puppeteer');
 
 async function scrapeEventbrite() {
   const browser = await puppeteer.launch({
-  executablePath: '/usr/bin/chromium', // ✅ Path in Playwright image
     headless: "new",
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });  const page = await browser.newPage();
