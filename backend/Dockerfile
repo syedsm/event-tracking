@@ -1,19 +1,19 @@
-# Use official Puppeteer image (Chrome pre-installed)
 FROM ghcr.io/puppeteer/puppeteer:21.3.8
 
-# Set env to skip Chromium download (already included)
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
 
-# Set working directory
 WORKDIR /app
 
-# Copy package files and install
 COPY package.json package-lock.json ./
+
+# Fix permissions for the current directory so npm can write
+RUN chmod -R 755 /app && chown -R pptruser:pptruser /app
+
+USER pptruser
+
 RUN npm install
 
-# Copy all files
-COPY . .
+COPY --chown=pptruser:pptruser . .
 
-# Start your script
 CMD ["node", "index.js"]
