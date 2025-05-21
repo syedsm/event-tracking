@@ -1,18 +1,11 @@
-FROM mcr.microsoft.com/playwright:focal
+FROM ghcr.io/puppeteer/puppeteer:21.3.8
 
-# Use root for setup
-USER root
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
 
-# Install puppeteer-core (Chromium is already included in base image)
-WORKDIR /app
+WORKDIR /usr/src/app
+
 COPY package*.json ./
-RUN npm install
-
-# Copy the rest of the app
+RUN npm ci
 COPY . .
-
-# Use default node user
-USER pwuser
-
-# Start your app
-CMD ["npm", "start"]
+CMD [ "node", "index.js" ]
